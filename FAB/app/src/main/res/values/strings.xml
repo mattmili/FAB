@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FAB</string>
+    <string name="subscription_key">APIKEY</string>
+</resources>
