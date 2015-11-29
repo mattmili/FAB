@@ -28,6 +28,8 @@ public class Result extends AppCompatActivity {
 
         Intent result = getIntent();
         textResult = result.getStringExtra("result");
+
+        getReviews(textResult);
     }
 
     public void getReviews(String key){

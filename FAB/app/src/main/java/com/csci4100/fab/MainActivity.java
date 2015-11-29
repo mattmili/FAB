@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.csci4100.fab.helper.ImageHelper;
 import com.google.gson.Gson;
@@ -54,6 +56,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button search = (Button) findViewById(R.id.searchButton);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bookSearch();
+            }
+        });
+
+    }
+
+    public void bookSearch(){
+        EditText bookToSearch = (EditText) findViewById(R.id.queryInput);
+        if(bookToSearch.getText().toString().matches("")){
+            Toast.makeText(this.getBaseContext(), "Please enter an ISBN or book title", Toast.LENGTH_LONG);
+        }else{
+            Intent startResultIntent = new Intent(MainActivity.this, Result.class);
+            startResultIntent.putExtra("result", bookToSearch.getText().toString());
+            startActivity(startResultIntent);
+        }
     }
 
     // Deal with the result of selection of the photos and faces.
