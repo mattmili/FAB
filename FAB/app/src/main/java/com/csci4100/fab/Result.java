@@ -1,13 +1,18 @@
 package com.csci4100.fab;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -98,22 +103,58 @@ public class Result extends AppCompatActivity {
         author.setText(display.getAuthor());
         reviewLabel.setText("Displaying " + display.getReviews().size() + " of " + display.getNumReviews());
 
+        class MySimpleArrayAdapter extends ArrayAdapter<String> {
+            private final Context context;
+            private final ArrayList<String> reviews;
+            private final ArrayList<String> reviewers;
+
+            public MySimpleArrayAdapter(Context context, ArrayList<String> reviews, ArrayList<String> reviewers) {
+                super(context, R.layout.row_layout, reviews);
+                this.context = context;
+                this.reviews = reviews;
+                this.reviewers = reviewers;
+            }
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                LayoutInflater inflater = (LayoutInflater) context
+                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View rowView = inflater.inflate(R.layout.row_layout, parent, false);
+                TextView contentView = (TextView) rowView.findViewById(R.id.contentTextView);
+                TextView reviewerView = (TextView) rowView.findViewById(R.id.reviewerTextView);
+
+                contentView.setText(reviews.get(position));
+                reviewerView.setText(getResources().getString(R.string.source).toString() + " " + reviewers.get(position));
+
+                return rowView;
+            }
+        }
+
         /**
          * Temp array for only review values, add sources after
          */
         final ArrayList<String> tempReview = new ArrayList<>();
+        final ArrayList<String> tempReviewer = new ArrayList<>();
         for (int i = 0; i < display.getReviews().size(); i++) {
             tempReview.add(display.getReviews().get(i).get(0));
+            tempReviewer.add(display.getReviews().get(i).get(1));
         }
 
-        ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.row_layout, tempReview);
-        reviews.setAdapter(listAdapter);
+        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, tempReview, tempReviewer);
+        reviews.setAdapter(adapter);
+
+        //ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.row_layout, tempReview);
+        //reviews.setAdapter(listAdapter);
         reviews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View view, int position, long id) {
                 try {
                     String link = display.getReviews().get(position).get(2);
                     Log.d("ListClick", link);
+                    if (link != null) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                        startActivity(browserIntent);
+                    }
                 } catch (Exception ex) {
                     Log.println(1, "item-click-event", ex.getMessage());
                 }
