@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="GO TO FULL SITE"
-            android:id="@+id/textView"
+            android:id="@+id/go_to_site_label"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp" />
 
