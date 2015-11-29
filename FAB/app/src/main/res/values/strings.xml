@@ -4,4 +4,6 @@
     <string name="search_button">Search</string>
     <string name="book_not_found_message">Sorry, we couldn\'t find that book...</string>
     <string name="subscription_key">APIKEY</string>
+
+    <string name="source">Source:</string>
 </resources>
