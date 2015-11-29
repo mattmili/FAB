@@ -20,4 +20,12 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/loadMessage"
+        android:layout_above="@+id/avloadingIndicatorView"
+        android:layout_alignStart="@+id/avloadingIndicatorView"
+        android:layout_alignEnd="@+id/avloadingIndicatorView" />
+
 </RelativeLayout>

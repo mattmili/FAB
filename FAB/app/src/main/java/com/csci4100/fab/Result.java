@@ -25,18 +25,16 @@ import java.util.ArrayList;
 public class Result extends AppCompatActivity {
 
     private String textResult;
+    private static  final int LOADING_REQUEST_CODE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        Intent result = getIntent();
-        textResult = result.getStringExtra("result");
-
+        Intent caller = getIntent();
+        textResult = caller.getStringExtra("result");
         String book = textResult.replace(" ", "+");
-
-        Log.d("BOOK TITLE", book);
 
         getReviews(book);
     }
@@ -48,6 +46,16 @@ public class Result extends AppCompatActivity {
     private class getJSONData extends AsyncTask<String, Void, String>{
 
         private Exception exception = null;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Start loading screen activity
+            Intent startLoadingScreenActivity = new Intent(Result.this, LoadingScreen.class);
+            startLoadingScreenActivity.putExtra("load_message", "Retrieving book reviews");
+            startActivityForResult(startLoadingScreenActivity, LOADING_REQUEST_CODE);
+        }
 
         @Override
         protected String doInBackground(String... args) {
@@ -79,6 +87,9 @@ public class Result extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String json) {
+            // Close loading screen activity
+            finishActivity(LOADING_REQUEST_CODE);
+
             try {
                 populateView(json);
             } catch (org.json.JSONException e) {

@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         ocr = this.client.recognizeText(inputStream, LanguageCodes.AutoDetect, true);
 
         String result = gson.toJson(ocr);
-        Log.d("result", result);
 
         return result;
     }
@@ -151,8 +150,9 @@ public class MainActivity extends AppCompatActivity {
             super.onPreExecute();
 
             // Start loading screen activity
-            Intent intent = new Intent(MainActivity.this, LoadingScreen.class);
-            startActivityForResult(intent, LOADING_REQUEST_CODE);
+            Intent startLoadingScreenActivity = new Intent(MainActivity.this, LoadingScreen.class);
+            startLoadingScreenActivity.putExtra("load_message", "Detecting Photo");
+            startActivityForResult(startLoadingScreenActivity, LOADING_REQUEST_CODE);
         }
 
         @Override
@@ -171,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
 
             // Close loading screen activity
             finishActivity(LOADING_REQUEST_CODE);
-
 
             if (e != null) {
                 this.e = null;
