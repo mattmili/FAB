@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap mBitmap;
     private VisionServiceClient client;
 
+    EditText bookToSearch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,10 +66,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        bookToSearch = (EditText) findViewById(R.id.queryInput);
+        bookToSearch.setHint("Enter book name or ISBN");
+
+
     }
 
     public void bookSearch(){
-        EditText bookToSearch = (EditText) findViewById(R.id.queryInput);
         if(bookToSearch.getText().toString().matches("")){
             Toast.makeText(this.getBaseContext(), "Please enter an ISBN or book title", Toast.LENGTH_LONG);
         }else{

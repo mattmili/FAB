@@ -29,7 +29,11 @@ public class Result extends AppCompatActivity {
         Intent result = getIntent();
         textResult = result.getStringExtra("result");
 
-        getReviews(textResult);
+        String book = textResult.replace(" ", "+");
+
+        Log.d("BOOK TITLE", book);
+
+        getReviews(book);
     }
 
     public void getReviews(String key){
