@@ -102,6 +102,8 @@ public class Result extends AppCompatActivity {
     public void populateView(String jsonString) throws org.json.JSONException {
         final ParseDisplay display = new ParseDisplay(jsonString);
 
+        BookTitleHelper helperTitle = new BookTitleHelper(this, display.getTitle().replace(" ", "+"));
+
         TextView title = (TextView) findViewById(R.id.book_title);
         TextView author = (TextView) findViewById(R.id.name_of_author);
         TextView reviewLabel = (TextView) findViewById(R.id.review_label);
@@ -138,9 +140,6 @@ public class Result extends AppCompatActivity {
             }
         }
 
-        /**
-         * Temp array for only review values, add sources after
-         */
         final ArrayList<String> tempReview = new ArrayList<>();
         final ArrayList<String> tempReviewer = new ArrayList<>();
         for (int i = 0; i < display.getReviews().size(); i++) {
