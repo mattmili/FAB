@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,7 +20,7 @@ public class ParseDisplay {
     String fullLink;
 
     JSONArray shortReviews;
-    Map<Integer, ArrayList<String>> reviews;
+    HashMap<Integer, ArrayList<String>> reviews = new HashMap<>();
 
 
     public ParseDisplay(String jsonString) throws org.json.JSONException {
