@@ -42,6 +42,7 @@ public class ParseDisplay {
             ArrayList<String> temp = new ArrayList<>();
             temp.add(shortReviews.getJSONObject(i).getString("snippet"));
             temp.add(shortReviews.getJSONObject(i).getString("source"));
+            temp.add(shortReviews.getJSONObject(i).getString("review_link"));
             reviews.put(i, temp);
         }
     }
