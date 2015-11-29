@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -85,7 +87,7 @@ public class Result extends AppCompatActivity {
     }
 
     public void populateView(String jsonString) throws org.json.JSONException {
-        ParseDisplay display = new ParseDisplay(jsonString);
+        final ParseDisplay display = new ParseDisplay(jsonString);
 
         TextView title = (TextView) findViewById(R.id.book_title);
         TextView author = (TextView) findViewById(R.id.name_of_author);
@@ -99,14 +101,23 @@ public class Result extends AppCompatActivity {
         /**
          * Temp array for only review values, add sources after
          */
-        ArrayList<String> tempReview = new ArrayList<>();
+        final ArrayList<String> tempReview = new ArrayList<>();
         for (int i = 0; i < display.getReviews().size(); i++) {
             tempReview.add(display.getReviews().get(i).get(0));
         }
 
         ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.row_layout, tempReview);
         reviews.setAdapter(listAdapter);
+        reviews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                try {
+                    String link = display.getReviews().get(position).get(2);
+                    Log.d("ListClick", link);
+                } catch (Exception ex) {
+                    Log.println(1, "item-click-event", ex.getMessage());
+                }
+            }
+        });
     }
-
-
 }
