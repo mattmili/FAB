@@ -66,21 +66,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bookToSearch = (EditText) findViewById(R.id.queryInput);
-        bookToSearch.setHint("Enter book name or ISBN");
-
+        bookToSearch = (EditText) findViewById(R.id.bookInput);
+        bookToSearch.setHint(R.string.input_hint);
 
     }
 
-    public void bookSearch(){
-        if(bookToSearch.getText().toString().matches("")){
-            Toast.makeText(this.getBaseContext(), "Please enter an ISBN or book title", Toast.LENGTH_LONG);
-        }else{
-            Intent startResultIntent = new Intent(MainActivity.this, Result.class);
-            startResultIntent.putExtra("result", bookToSearch.getText().toString());
-            startActivity(startResultIntent);
-        }
-    }
 
     // Deal with the result of selection of the photos and faces.
     @Override
@@ -97,6 +87,16 @@ public class MainActivity extends AppCompatActivity {
             if (mBitmap != null) {
                 doRecognize();
             }
+        }
+    }
+
+    public void bookSearch(){
+        if(bookToSearch.getText().toString().matches("")){
+            Toast.makeText(this.getBaseContext(), "Please enter an ISBN or book title", Toast.LENGTH_LONG);
+        }else{
+            Intent startResultIntent = new Intent(MainActivity.this, Result.class);
+            startResultIntent.putExtra("result", bookToSearch.getText().toString());
+            startActivity(startResultIntent);
         }
     }
 
@@ -128,12 +128,12 @@ public class MainActivity extends AppCompatActivity {
 
     private String process() throws VisionServiceException, IOException {
         Gson gson = new Gson();
+        OCR ocr;
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
         ByteArrayInputStream inputStream = new ByteArrayInputStream(output.toByteArray());
 
-        OCR ocr;
         ocr = this.client.recognizeText(inputStream, LanguageCodes.AutoDetect, true);
 
         String result = gson.toJson(ocr);

@@ -21,7 +21,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/queryInput"
+        android:id="@+id/bookInput"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="100dp"
@@ -33,16 +33,16 @@
         android:layout_height="wrap_content"
         android:text="Search"
         android:id="@+id/searchButton"
-        android:layout_below="@+id/queryInput"
+        android:layout_below="@+id/bookInput"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/queryInput" />
+        android:layout_alignEnd="@+id/bookInput" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="OR"
-        android:id="@+id/textView3"
+        android:id="@+id/textLabel_Or"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

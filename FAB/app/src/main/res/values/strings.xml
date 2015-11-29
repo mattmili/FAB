@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">FAB</string>
+    <string name="input_hint">Enter book name or ISBN</string>
+    <string name="search_button">Search</string>
+    <string name="book_not_found_message">Sorry, we couldn\'t find that book...</string>
     <string name="subscription_key">APIKEY</string>
 </resources>

@@ -12,8 +12,9 @@ public class BookEntry extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_entry);
 
-        TextView key = (TextView) findViewById(R.id.query);
-        String query = key.getText().toString();
+        TextView bookToSearch = (TextView) findViewById(R.id.query);
+        bookToSearch.setHint(R.string.input_hint);
+        String query = bookToSearch.getText().toString();
 
         Intent startResultIntent = new Intent(BookEntry.this, Result.class);
         startResultIntent.putExtra("result", query);
