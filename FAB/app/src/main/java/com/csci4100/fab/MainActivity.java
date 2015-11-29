@@ -33,6 +33,7 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_TAKE_PHOTO = 0;
+    private static  final int LOADING_REQUEST_CODE = 0;
 
     // The URI of photo taken with camera
     private Uri mUriPhotoTaken;
@@ -146,6 +147,15 @@ public class MainActivity extends AppCompatActivity {
         private Exception e = null;
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // Start loading screen activity
+            Intent intent = new Intent(MainActivity.this, LoadingScreen.class);
+            startActivityForResult(intent, LOADING_REQUEST_CODE);
+        }
+
+        @Override
         protected String doInBackground(String... args) {
             try {
                 return process();
@@ -158,6 +168,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String data) {
             super.onPostExecute(data);
+
+            // Close loading screen activity
+            finishActivity(LOADING_REQUEST_CODE);
+
 
             if (e != null) {
                 this.e = null;
