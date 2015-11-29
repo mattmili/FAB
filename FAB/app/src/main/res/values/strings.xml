@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">FAB</string>
+    <string name="subscription_key">APIKEY</string>
+
     <string name="input_hint">Enter book name or ISBN</string>
     <string name="search_button">Search</string>
     <string name="book_not_found_message">Sorry, we couldn\'t find that book...</string>
-    <string name="subscription_key">APIKEY</string>
-
     <string name="source">Source:</string>
     <string name="title_activity_loading_screen">LoadingScreen</string>
+    <string name="take_photo">Take Photo</string>
 </resources>
