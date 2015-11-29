@@ -12,21 +12,25 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".MainActivity" >
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Result" >
+        <activity android:name=".Result"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".BookEntry" >
+        <activity android:name=".BookEntry"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".LoadingScreen"
             android:label="@string/title_activity_loading_screen"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

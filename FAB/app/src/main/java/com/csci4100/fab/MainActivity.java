@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.csci4100.fab.helper.ImageHelper;
 import com.google.gson.Gson;
@@ -69,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         bookToSearch = (EditText) findViewById(R.id.bookInput);
         bookToSearch.setHint(R.string.input_hint);
+        bookToSearch.setHintTextColor(getResources().getColor(R.color.icons));
 
     }
 
@@ -92,13 +92,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void bookSearch(){
-        if(bookToSearch.getText().toString().matches("")){
-            Toast.makeText(this.getBaseContext(), "Please enter an ISBN or book title", Toast.LENGTH_LONG);
-        }else{
-            Intent startResultIntent = new Intent(MainActivity.this, Result.class);
-            startResultIntent.putExtra("result", bookToSearch.getText().toString());
-            startActivity(startResultIntent);
-        }
+        Intent startResultIntent = new Intent(MainActivity.this, Result.class);
+        startResultIntent.putExtra("result", bookToSearch.getText().toString());
+        startActivity(startResultIntent);
     }
 
     // Launch the camera to allow the user to take a photo
