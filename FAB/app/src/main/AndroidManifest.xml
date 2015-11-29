@@ -21,6 +21,8 @@
         </activity>
         <activity android:name=".Result" >
         </activity>
+        <activity android:name=".BookEntry" >
+        </activity>
     </application>
 
 </manifest>

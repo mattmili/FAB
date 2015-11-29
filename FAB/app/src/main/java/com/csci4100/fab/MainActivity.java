@@ -151,10 +151,13 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Log.d("Result", result);
 
-                if(result != " ") {
+                if(result != "") {
                     Intent startResultIntent = new Intent(MainActivity.this, Result.class);
                     startResultIntent.putExtra("result", result);
                     startActivity(startResultIntent);
+                }else {
+                    Intent startBookEntryIntent = new Intent(MainActivity.this, BookEntry.class);
+                    startActivity(startBookEntryIntent);
                 }
             }
         }
