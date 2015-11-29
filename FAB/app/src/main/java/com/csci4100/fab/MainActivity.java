@@ -9,6 +9,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.csci4100.fab.helper.ImageHelper;
 import com.google.gson.Gson;
@@ -32,9 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     // The URI of photo taken with camera
     private Uri mUriPhotoTaken;
-
     private Bitmap mBitmap;
-
     private VisionServiceClient client;
 
     @Override
@@ -42,11 +42,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        takePhoto();
-
         if (client==null){
             client = new VisionServiceRestClient(getString(R.string.subscription_key));
         }
+
+        Button takePhoto = (Button) findViewById(R.id.takePhotoButton);
+        takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takePhoto();
+            }
+        });
+
     }
 
     // Deal with the result of selection of the photos and faces.
@@ -144,6 +151,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Log.d("Result", result);
 
+                if(result != " ") {
+                    Intent startResultIntent = new Intent(MainActivity.this, Result.class);
+                    startResultIntent.putExtra("result", result);
+                    startActivity(startResultIntent);
+                }
             }
         }
 
