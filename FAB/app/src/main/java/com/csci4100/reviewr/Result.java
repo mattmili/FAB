@@ -1,7 +1,5 @@
 package com.csci4100.reviewr;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,10 +19,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import com.csci4100.reviewr.helper.BookTitleHelper;
-
 
 import java.io.BufferedReader;
 import java.io.InputStream;
