@@ -2,9 +2,12 @@ package com.csci4100.reviewr;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -104,10 +108,28 @@ public class Result extends AppCompatActivity {
     public void populateView(String jsonString) throws org.json.JSONException {
         final ParseDisplay display = new ParseDisplay(jsonString);
 
-        BookTitleHelper helperTitle = new BookTitleHelper(this, display.getTitle().replace(" ", "+"));
+        final BookTitleHelper helperTitle = new BookTitleHelper(this, display.getTitle().replace(" ", "+"));
 
         TextView title = (TextView) findViewById(R.id.book_title);
         TextView author = (TextView) findViewById(R.id.name_of_author);
+
+        ImageView bufferCover = (ImageView) findViewById(R.id.book_cover);
+        bufferCover.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.logo_sample));
+
+        final ImageView cover = (ImageView) findViewById((R.id.book_cover));
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                Bitmap testTwo = helperTitle.getCoverBitmap();
+                if (testTwo == null) {
+
+                } else {
+                    cover.setImageBitmap(testTwo);
+                }
+            }
+        }, 3000);
+
         TextView reviewLabel = (TextView) findViewById(R.id.review_label);
         ListView reviews = (ListView) findViewById(R.id.review_list);
 
