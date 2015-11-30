@@ -215,8 +215,11 @@ public class Result extends AppCompatActivity {
             }
 
         } else  {
-            TextView title = (TextView) findViewById(R.id.book_title);
-            title.setText(this.getResources().getString(R.string.no_book));
+
+            Intent noBook = new Intent(Result.this, BookEntry.class);
+            startActivity(noBook);
+            //TextView title = (TextView) findViewById(R.id.book_title);
+            //title.setText(this.getResources().getString(R.string.no_book));
         }
     }
 }
