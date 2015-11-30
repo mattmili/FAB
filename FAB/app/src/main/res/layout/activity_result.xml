@@ -100,7 +100,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="5dp"
+        android:layout_margin="0dp"
         android:weightSum="1"
         android:background="@color/icons">
 
@@ -110,7 +110,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/review_label"
             android:layout_gravity="left|center_horizontal"
-            android:background="@color/primary"
+            android:background="@color/icons"
             android:textColor="#FFFFFF"
             android:fontFamily="sans-serif" />
 
@@ -120,7 +120,7 @@
             android:id="@+id/review_list"
             android:layout_gravity="center_horizontal"
             android:layout_margin="2dp"
-            android:background="@color/primary"
+            android:background="@color/icons"
             android:textColor="#FFFFFF"
             android:fontFamily="sans-serif"
             android:divider="@color/icons"
