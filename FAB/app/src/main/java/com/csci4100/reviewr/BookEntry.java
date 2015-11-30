@@ -3,6 +3,7 @@ package com.csci4100.reviewr;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -27,5 +28,14 @@ public class BookEntry extends AppCompatActivity {
         Intent startResultIntent = new Intent(BookEntry.this, Result.class);
         startResultIntent.putExtra("result", query);
         startActivity(startResultIntent);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            finish();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

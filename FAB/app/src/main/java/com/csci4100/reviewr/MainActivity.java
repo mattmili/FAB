@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             client = new VisionServiceRestClient(getString(R.string.subscription_key));
         }
 
+        // ButtonOnClickListeners
         Button takePhoto = (Button) findViewById(R.id.takePhotoButton);
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
                 takePhoto();
             }
         });
-
         Button search = (Button) findViewById(R.id.searchButton);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         bookToSearch.setHint(R.string.input_hint);
         bookToSearch.setHintTextColor(getResources().getColor(R.color.icons));
 
-        // Search History
+        // Search History DB from previous searches
         dbHelper = new SearchHistoryDBHelper(this);
         if(!dbHelper.isEmpty()) {
             this.queryItems = dbHelper.getAllitems();
@@ -124,15 +124,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Star book search from book title or ISBN
-    public void bookSearch(){
+    public void bookSearch() {
+        String query = bookToSearch.getText().toString();
+
+        // Add search item to the search history
+        if(!this.queryItems.contains(query)) {
+            dbHelper.createitem(query);
+        }
+
         Intent startResultIntent = new Intent(MainActivity.this, Result.class);
-        startResultIntent.putExtra("result", bookToSearch.getText().toString());
-        dbHelper.createitem(bookToSearch.getText().toString());
+        startResultIntent.putExtra("result", query);
         startActivity(startResultIntent);
     }
 
     // Launch the camera to allow the user to take a photo
-    public void takePhoto(){
+    public void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(getPackageManager()) != null) {
             // Save the photo taken to a temporary file.
@@ -151,8 +157,7 @@ public class MainActivity extends AppCompatActivity {
     public void doRecognize() {
         try {
             new doRequest().execute();
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.d("Error encountered", " Exception is: " + e.toString());
         }
     }
@@ -219,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     result += "\n\n";
                 }
-                Log.d("Result", result);
+                Log.d("OCR Result", result);
 
                 if(result != "") {
                     // Start Result Activity

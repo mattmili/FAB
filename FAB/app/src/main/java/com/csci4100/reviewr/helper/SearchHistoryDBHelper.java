@@ -10,7 +10,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 /**
- * Created by mili on 2015-11-30.
+ * Search History Database
  */
 public class SearchHistoryDBHelper extends SQLiteOpenHelper {
 
@@ -50,6 +50,7 @@ public class SearchHistoryDBHelper extends SQLiteOpenHelper {
 
         // insert the data into the database
         ContentValues values = new ContentValues();
+
         values.put("searchQuery", item.query());
         long id = database.insert(TABLE_NAME, null, values);
 
@@ -74,7 +75,7 @@ public class SearchHistoryDBHelper extends SQLiteOpenHelper {
     }
 
     // delete all items
-    public void deleteAllProducts() {
+    public void deleteAllItems() {
         // obtain a database connection
         SQLiteDatabase database = this.getWritableDatabase();
 

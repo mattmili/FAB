@@ -113,6 +113,10 @@ public class Result extends AppCompatActivity {
                 populateView(json);
             } catch (org.json.JSONException e) {
                 Log.d("JSON Error", e.toString());
+                // If book not found
+                // Start Book Entry Activity and prompt user for manual entry
+                Intent startBookEntryIntent = new Intent(Result.this, BookEntry.class);
+                startActivity(startBookEntryIntent);
             }
             Log.d("Result", json);
         }

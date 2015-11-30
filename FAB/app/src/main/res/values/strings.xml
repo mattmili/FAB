@@ -4,7 +4,7 @@
 
     <string name="input_hint">Enter book name or ISBN</string>
     <string name="search_button">Search</string>
-    <string name="book_not_found_message">Sorry, we couldn\'t find that book...</string>
+    <string name="book_not_found_message">Sorry, we couldn\'t detect that book. Please enter the book below.</string>
     <string name="source">Source:</string>
     <string name="title_activity_loading_screen">LoadingScreen</string>
     <string name="take_photo">Take Photo (BETA)</string>
