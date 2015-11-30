@@ -17,11 +17,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by 100481892 on 11/29/2015.
+ * Created by AlexanderGladu.
  */
 public class BookTitleHelper extends AppCompatActivity {
 
-    private static final int LOADING_REQUEST_CODE = 0;
+    /**
+     * Create global variable for traits of a book that is received.
+     */
     String bookTitle;
     String isbnString;
     Bitmap bookCover = null;
@@ -30,6 +32,10 @@ public class BookTitleHelper extends AppCompatActivity {
     int pos = 0;
 
     public BookTitleHelper(Context context, String bookTitle) {
+        /**
+         * Values for context are passed in, and the title of the book received
+         *  in the previous step. The url is created to get the isbn values.
+         */
         this.context = context;
         this.bookTitle = bookTitle.replace(" ", "+");
         isbnString = "http://idreambooks.com/api/books/show_features.json?q=" + bookTitle + "&key=69d520efe502ad40e3811139ca0071d0d447a16d";
@@ -44,40 +50,13 @@ public class BookTitleHelper extends AppCompatActivity {
 
         private Exception exception = null;
 
-        /*
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Start loading screen activity
-            Intent startLoadingScreenActivity = new Intent(BookTitleHelper.this, LoadingScreen.class);
-            startLoadingScreenActivity.putExtra("load_message", "Retrieving book reviews");
-            startActivityForResult(startLoadingScreenActivity, LOADING_REQUEST_CODE);
-        }
-        */
-
         @Override
         protected String doInBackground(String... args) {
             try {
-                /*
-                String key = args[0];
-                String url_api = "https://damp-wildwood-1388.herokuapp.com/getbook?items="+key;
-                Log.d("URL", url_api);
-                URL url = new URL(url_api);
-                HttpURLConnection conn;
-                conn = (HttpURLConnection)url.openConnection();
-                int result = conn.getResponseCode();
-                if(result == HttpURLConnection.HTTP_OK){
-                    InputStream in = conn.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                    StringBuilder out = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        out.append(line);
-                    }
-                    JSONResult = out.toString();
-                }
-                return JSONResult;
-                */
+                /**
+                 * Sends the url defined above to receive a JSON string that defines the
+                 *  isbns of the book, which are later used to find covers.
+                 */
                 String JSONResult = "";
                 URL url = new URL(args[0]);
                 HttpURLConnection conn;
@@ -94,11 +73,6 @@ public class BookTitleHelper extends AppCompatActivity {
                     JSONResult = out.toString();
                 }
                 return JSONResult;
-
-
-                //Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                //return bmp;
-
             } catch (Exception e) {
                 this.exception = e;
                 return null;
@@ -107,9 +81,9 @@ public class BookTitleHelper extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String jsonISBN) {
-            // Close loading screen activity
-            //finishActivity(LOADING_REQUEST_CODE);
-
+            /**
+             * Try block catches error if there are no isbns available.
+             */
             try {
                 getBookISBN(jsonISBN);
             } catch (org.json.JSONException e) {
@@ -120,18 +94,18 @@ public class BookTitleHelper extends AppCompatActivity {
     }
 
     public void getBookISBN(String jsonString) throws org.json.JSONException {
+        /**
+         * Creates a JSONObject for the book, and takes the string value
+         *  for "isbns". This is then split at the "," character,
+         *  and placed into a String array for later access. It also
+         *  assigns the cover lookup url to a string value.
+         */
         JSONObject mainObject = new JSONObject(jsonString);
         JSONArray books = mainObject.getJSONArray("books");
         String isbnList = books.getJSONObject(0).getString("isbns");
         isbns = isbnList.toString().split(",");
         String coverURL = "http://covers.openlibrary.org/b/isbn/" + isbns[0] + "-L.jpg?default=false";
         Log.d("ISBN", isbns[0]);
-        getCover(coverURL);
-    }
-
-    public void getCoverFromURL(String[] list, int pos) {
-        String coverURL = "http://covers.openlibrary.org/b/isbn/" + list[pos] + "-L.jpg";
-        Log.d("ISBN", list[pos]);
         getCover(coverURL);
     }
 
@@ -142,44 +116,17 @@ public class BookTitleHelper extends AppCompatActivity {
     class BookCover extends AsyncTask<String, Void, Bitmap> {
 
         Bitmap bmp;
-
         private Exception exception = null;
-
-        /*
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            // Start loading screen activity
-            Intent startLoadingScreenActivity = new Intent(BookTitleHelper.this, LoadingScreen.class);
-            startLoadingScreenActivity.putExtra("load_message", "Retrieving book reviews");
-            startActivityForResult(startLoadingScreenActivity, LOADING_REQUEST_CODE);
-        }
-        */
 
         @Override
         protected Bitmap doInBackground(String... args) {
+            /**
+             * The url returns an image if one is availble, and
+             *  returns a 404 error if not. In the catch, if it receives a
+             *  404 Error, it will go to the next isbn in the isbn list,
+             *  and redo the URL access with the new URL.
+             */
             try {
-                /*
-                String key = args[0];
-                String url_api = "https://damp-wildwood-1388.herokuapp.com/getbook?items="+key;
-                Log.d("URL", url_api);
-                URL url = new URL(url_api);
-                HttpURLConnection conn;
-                conn = (HttpURLConnection)url.openConnection();
-                int result = conn.getResponseCode();
-                if(result == HttpURLConnection.HTTP_OK){
-                    InputStream in = conn.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                    StringBuilder out = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        out.append(line);
-                    }
-                    JSONResult = out.toString();
-                }
-                return JSONResult;
-                */
-
                 URL url = new URL(args[0]);
                 bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                 return bmp;
@@ -200,16 +147,16 @@ public class BookTitleHelper extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Bitmap cover) {
-            // Close loading screen activity
-            //finishActivity(LOADING_REQUEST_CODE);
-
             setBookCover(cover);
             Log.d("Result", "True");
         }
     }
 
     public void setBookCover(Bitmap temp) {
-
+        /**
+         * Assigns the global Bitmap value to later be gotten with the getCoverBitmap
+         *  method.
+         */
         bookCover = temp;
         Log.d("ISBNWorked", isbns[pos]);
 

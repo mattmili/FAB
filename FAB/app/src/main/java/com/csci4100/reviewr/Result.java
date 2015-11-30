@@ -31,6 +31,10 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Created by mattmili.
+ *  AlexanderGladu - populateView() method
+ */
 public class Result extends AppCompatActivity {
 
     private String textResult, query;
@@ -123,16 +127,31 @@ public class Result extends AppCompatActivity {
     }
 
     public void populateView(String jsonString) throws org.json.JSONException {
+        /**
+         * Creates a new parser, and gives it the JSON string.
+         */
         final ParseDisplay display = new ParseDisplay(jsonString);
 
         if (!display.getNoBookResult().equals("No Books")) {
+            /**
+             * If there is a book found:
+             */
             final BookTitleHelper helperTitle = new BookTitleHelper(this, display.getTitle().replace(" ", "+"));
 
+            /**
+             * ImageView for our icon to display while we get the real cover
+             */
             ImageView bufferCover = (ImageView) findViewById(R.id.book_cover);
             bufferCover.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.logo_sample));
 
+            /**
+             * Start of actual displaying of data.
+             */
             final ImageView cover = (ImageView) findViewById((R.id.book_cover));
 
+            /**
+             * Waits 4s for the cover to be found. If not, out icon is displayed.
+             */
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 public void run() {
@@ -143,8 +162,11 @@ public class Result extends AppCompatActivity {
                         cover.setImageBitmap(testTwo);
                     }
                 }
-            }, 3000);
+            }, 4000);
 
+            /**
+             * Gets the views from activity_result.
+             */
             TextView title = (TextView) findViewById(R.id.book_title);
             TextView author = (TextView) findViewById(R.id.name_of_author);
             TextView genre = (TextView) findViewById(R.id.genre_label);
@@ -154,6 +176,9 @@ public class Result extends AppCompatActivity {
             TextView reviewLabel = (TextView) findViewById(R.id.review_label);
             ListView reviews = (ListView) findViewById(R.id.review_list);
 
+            /**
+             * Underlines the title, and sets the basic values for the book.
+             */
             title.setPaintFlags(title.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             title.setText(display.getTitle());
             author.setText(this.getResources().getString(R.string.by) + " " + display.getAuthor());
@@ -162,14 +187,26 @@ public class Result extends AppCompatActivity {
             numRating.setText(this.getResources().getString(R.string.num_rating_start) + " " + display.getNumReviews());
 
             if (!display.getNoReviewResult().equals("No Reviews")) {
+                /**
+                 * If there are reviews:
+                 */
                 reviewLabel.setText("Displaying " + display.getReviews().size() + " of " + display.getNumReviews());
 
+                /**
+                 * Custom array adapter that displays the content, and below
+                 *  the content the source and the rating of/from the review.
+                 */
                 class MySimpleArrayAdapter extends ArrayAdapter<String> {
                     private final Context context;
                     private final ArrayList<String> reviews;
                     private final ArrayList<String> reviewers;
                     private final ArrayList<Double> rating;
 
+                    /**
+                     * Assigns three ArrayList<String> for the contents, the sources, and
+                     *  the ratings (all line up in position relative to each other.
+                     *      review(1) goes with reviewers(1) goes with ratings(1).
+                     */
                     public MySimpleArrayAdapter(Context context, ArrayList<String> reviews, ArrayList<String> reviewers, ArrayList<Double> ratings) {
                         super(context, R.layout.row_layout, reviews);
                         this.context = context;
@@ -180,6 +217,10 @@ public class Result extends AppCompatActivity {
 
                     @Override
                     public View getView(int position, View convertView, ViewGroup parent) {
+                        /**
+                         * Sets the values of the views in the custom row_layout of the
+                         *  list.
+                         */
                         LayoutInflater inflater = (LayoutInflater) context
                                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                         View rowView = inflater.inflate(R.layout.row_layout, parent, false);
@@ -195,6 +236,14 @@ public class Result extends AppCompatActivity {
                     }
                 }
 
+                /**
+                 * Declares and assigns the actual values to the three string lists that
+                 *  the custom adaptor uses.
+                 *
+                 *  Review(1).(0) => content
+                 *  Review(1).(1) => source
+                 *  Review(1).(3) => rating
+                 */
                 final ArrayList<String> tempReview = new ArrayList<>();
                 final ArrayList<String> tempReviewer = new ArrayList<>();
                 final ArrayList<Double> tempRatings = new ArrayList<>();
@@ -207,8 +256,12 @@ public class Result extends AppCompatActivity {
                 MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, tempReview, tempReviewer, tempRatings);
                 reviews.setAdapter(adapter);
 
-                //ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.row_layout, tempReview);
-                //reviews.setAdapter(listAdapter);
+                /**
+                 * When the user clicks on the review in the list, a browser activity
+                 *  is started, and they are taken to the site of the review.
+                 *  The link to the review is stored in:
+                 *      Review(1).(2) => rating_link
+                 */
                 reviews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView parent, View view, int position, long id) {
@@ -225,15 +278,18 @@ public class Result extends AppCompatActivity {
                     }
                 });
             } else {
+                /**
+                 * When no reviews, displays "No Reviews"
+                 */
                 reviewLabel.setText(this.getResources().getString(R.string.no_reviews));
             }
 
         } else  {
-
+            /**
+             * When no book, displays the BooKEntry activity
+             */
             Intent noBook = new Intent(Result.this, BookEntry.class);
             startActivity(noBook);
-            //TextView title = (TextView) findViewById(R.id.book_title);
-            //title.setText(this.getResources().getString(R.string.no_book));
         }
     }
 }
