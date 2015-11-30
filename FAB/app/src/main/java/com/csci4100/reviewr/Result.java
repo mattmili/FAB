@@ -66,6 +66,7 @@ public class Result extends AppCompatActivity {
 
         private Exception exception = null;
 
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -150,6 +151,7 @@ public class Result extends AppCompatActivity {
             TextView rating = (TextView) findViewById(R.id.rating_label);
             TextView numRating = (TextView) findViewById(R.id.num_rating_label);
 
+            TextView reviewLabel = (TextView) findViewById(R.id.review_label);
             ListView reviews = (ListView) findViewById(R.id.review_list);
 
             title.setPaintFlags(title.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -160,6 +162,7 @@ public class Result extends AppCompatActivity {
             numRating.setText(this.getResources().getString(R.string.num_rating_start) + " " + display.getNumReviews());
 
             if (!display.getNoReviewResult().equals("No Reviews")) {
+                reviewLabel.setText("Displaying " + display.getReviews().size() + " of " + display.getNumReviews());
 
                 class MySimpleArrayAdapter extends ArrayAdapter<String> {
                     private final Context context;
@@ -221,6 +224,8 @@ public class Result extends AppCompatActivity {
                         }
                     }
                 });
+            } else {
+                reviewLabel.setText(this.getResources().getString(R.string.no_reviews));
             }
 
         } else  {
