@@ -1,7 +1,5 @@
 package com.csci4100.reviewr;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,17 +15,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import com.csci4100.reviewr.helper.BookTitleHelper;
-
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -35,10 +29,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Result extends AppCompatActivity {
 
-    private String textResult;
+    private String textResult, query;
     private static  final int LOADING_REQUEST_CODE = 0;
 
     @Override
@@ -48,9 +44,19 @@ public class Result extends AppCompatActivity {
 
         Intent caller = getIntent();
         textResult = caller.getStringExtra("result");
-        String book = textResult.replace(" ", "+");
 
-        getReviews(book);
+        String ISBNPattern = "^(?:ISBN(?:-1[03])?:? )?(?=[0-9X]{10}$|(?=(?:[0-9]+[- ]){3})[- 0-9X]{13}$|97[89][0-9]{10}$|(?=(?:[0-9]+[- ]){4})[- 0-9]{17}$)(?:97[89][- ]?)?[0-9]{1,5}[- ]?[0-9]+[- ]?[0-9]+[- ]?[0-9X]$";
+        Pattern r = Pattern.compile(ISBNPattern);
+
+        Matcher m = r.matcher(textResult);
+        if (m.find( )) {
+            query = m.group(0);
+            getReviews(query);
+        }else{
+            query = textResult.replace(" ", "+");
+            getReviews(query);
+        }
+
     }
 
     public void getReviews(String key){
