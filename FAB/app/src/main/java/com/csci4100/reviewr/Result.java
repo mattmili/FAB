@@ -1,5 +1,7 @@
 package com.csci4100.reviewr;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,7 +21,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import com.csci4100.reviewr.helper.BookTitleHelper;
+
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -110,9 +115,6 @@ public class Result extends AppCompatActivity {
 
         final BookTitleHelper helperTitle = new BookTitleHelper(this, display.getTitle().replace(" ", "+"));
 
-        TextView title = (TextView) findViewById(R.id.book_title);
-        TextView author = (TextView) findViewById(R.id.name_of_author);
-
         ImageView bufferCover = (ImageView) findViewById(R.id.book_cover);
         bufferCover.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.logo_sample));
 
@@ -130,22 +132,32 @@ public class Result extends AppCompatActivity {
             }
         }, 3000);
 
+        TextView title = (TextView) findViewById(R.id.book_title);
+        TextView author = (TextView) findViewById(R.id.name_of_author);
+        TextView rating = (TextView) findViewById(R.id.rating_label);
+        TextView numRating = (TextView) findViewById(R.id.num_rating_label);
+
         TextView reviewLabel = (TextView) findViewById(R.id.review_label);
         ListView reviews = (ListView) findViewById(R.id.review_list);
 
         title.setText(display.getTitle());
         author.setText(display.getAuthor());
+        rating.setText(this.getResources().getString(R.string.rating_start) + " " + display.getRating());
+        numRating.setText(this.getResources().getString(R.string.num_rating_start) + " " + display.getNumReviews());
+
         reviewLabel.setText("Displaying " + display.getReviews().size() + " of " + display.getNumReviews());
 
         class MySimpleArrayAdapter extends ArrayAdapter<String> {
             private final Context context;
             private final ArrayList<String> reviews;
             private final ArrayList<String> reviewers;
+            private final ArrayList<Double> rating;
 
-            public MySimpleArrayAdapter(Context context, ArrayList<String> reviews, ArrayList<String> reviewers) {
+            public MySimpleArrayAdapter(Context context, ArrayList<String> reviews, ArrayList<String> reviewers, ArrayList<Double> ratings) {
                 super(context, R.layout.row_layout, reviews);
                 this.context = context;
                 this.reviews = reviews;
+                this.rating = ratings;
                 this.reviewers = reviewers;
             }
 
@@ -156,9 +168,11 @@ public class Result extends AppCompatActivity {
                 View rowView = inflater.inflate(R.layout.row_layout, parent, false);
                 TextView contentView = (TextView) rowView.findViewById(R.id.contentTextView);
                 TextView reviewerView = (TextView) rowView.findViewById(R.id.reviewerTextView);
+                TextView ratingView = (TextView) rowView.findViewById(R.id.reviewRatingTextView);
 
                 contentView.setText(reviews.get(position));
                 reviewerView.setText(getResources().getString(R.string.source).toString() + " " + reviewers.get(position));
+                ratingView.setText(getResources().getString(R.string.score).toString() + " " + Double.toString(rating.get(position)));
 
                 return rowView;
             }
@@ -166,12 +180,14 @@ public class Result extends AppCompatActivity {
 
         final ArrayList<String> tempReview = new ArrayList<>();
         final ArrayList<String> tempReviewer = new ArrayList<>();
+        final ArrayList<Double> tempRatings = new ArrayList<>();
         for (int i = 0; i < display.getReviews().size(); i++) {
             tempReview.add(display.getReviews().get(i).get(0));
             tempReviewer.add(display.getReviews().get(i).get(1));
+            tempRatings.add(Double.parseDouble(display.getReviews().get(i).get(3)));
         }
 
-        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, tempReview, tempReviewer);
+        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, tempReview, tempReviewer, tempRatings);
         reviews.setAdapter(adapter);
 
         //ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.row_layout, tempReview);

@@ -43,6 +43,7 @@ public class ParseDisplay {
             temp.add(shortReviews.getJSONObject(i).getString("snippet"));
             temp.add(shortReviews.getJSONObject(i).getString("source"));
             temp.add(shortReviews.getJSONObject(i).getString("review_link"));
+            temp.add(shortReviews.getJSONObject(i).getString("star_rating"));
             reviews.put(i, temp);
         }
     }
