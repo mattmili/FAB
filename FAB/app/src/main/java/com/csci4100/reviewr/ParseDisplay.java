@@ -15,6 +15,7 @@ public class ParseDisplay {
     JSONObject book;
     String title;
     String author;
+    String genre;
     int numReviews;
     int rating;
     String fullLink;
@@ -41,6 +42,7 @@ public class ParseDisplay {
         book = object.getJSONObject("book");
         title = book.getString("title");
         author = book.getString("author");
+        genre = book.getString("genre");
         numReviews = book.getInt("review_count");
         try {
             rating = book.getInt("rating");
@@ -72,6 +74,10 @@ public class ParseDisplay {
 
     public String getAuthor() {
         return author;
+    }
+
+    public String getGenre() {
+        return genre;
     }
 
     public int getNumReviews() {

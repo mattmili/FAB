@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -136,15 +138,18 @@ public class Result extends AppCompatActivity {
 
             TextView title = (TextView) findViewById(R.id.book_title);
             TextView author = (TextView) findViewById(R.id.name_of_author);
+            TextView genre = (TextView) findViewById(R.id.genre_label);
             TextView rating = (TextView) findViewById(R.id.rating_label);
             TextView numRating = (TextView) findViewById(R.id.num_rating_label);
 
             TextView reviewLabel = (TextView) findViewById(R.id.review_label);
             ListView reviews = (ListView) findViewById(R.id.review_list);
 
+            title.setPaintFlags(title.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             title.setText(display.getTitle());
-            author.setText(display.getAuthor());
-            rating.setText(this.getResources().getString(R.string.rating_start) + " " + display.getRating());
+            author.setText(this.getResources().getString(R.string.by) + " " + display.getAuthor());
+            genre.setText(this.getResources().getString(R.string.genre) + " " + display.getGenre());
+            rating.setText(this.getResources().getString(R.string.rating_start) + " " + display.getRating() + "%");
             numRating.setText(this.getResources().getString(R.string.num_rating_start) + " " + display.getNumReviews());
 
             if (!display.getNoReviewResult().equals("No Reviews")) {

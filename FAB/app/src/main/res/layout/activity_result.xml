@@ -5,12 +5,14 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    tools:context="com.csci4100.reviewr.Result">
+    tools:context="com.csci4100.reviewr.Result"
+    android:background="@color/primary"
+    android:weightSum="1">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="200dp"
-        android:background="@color/primary">
+        android:background="@color/primary_dark">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -27,36 +29,57 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left|center"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/book_title"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:textSize="25sp"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/name_of_author"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif" />
 
         <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:layout_alignParentLeft="true"
+                android:id="@+id/genre_label"
+                android:textColor="#FFFFFF"
+                android:fontFamily="sans-serif"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_alignParentLeft="false"
                 android:id="@+id/rating_label"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="75dp" />
+                android:textColor="#FFFFFF"
+                android:fontFamily="sans-serif"
+                android:layout_alignParentEnd="false"
+                android:layout_centerInParent="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -65,7 +88,9 @@
                 android:layout_alignParentRight="true"
                 android:id="@+id/num_rating_label"
                 android:layout_gravity="right"
-                android:layout_marginRight="40dp" />
+                android:textColor="#FFFFFF"
+                android:fontFamily="sans-serif" />
+
         </RelativeLayout>
 
     </LinearLayout>
@@ -73,25 +98,33 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:weightSum="1">
+        android:layout_margin="5dp"
+        android:weightSum="1"
+        android:background="@color/icons">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/review_label"
-            android:layout_gravity="left|center_horizontal" />
+            android:layout_gravity="left|center_horizontal"
+            android:background="@color/primary"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif" />
 
         <ListView
             android:layout_width="match_parent"
-            android:layout_height="216dp"
+            android:layout_height="match_parent"
             android:id="@+id/review_list"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_weight="3.40" />
+            android:layout_margin="2dp"
+            android:background="@color/primary"
+            android:textColor="#FFFFFF"
+            android:fontFamily="sans-serif"
+            android:divider="@color/icons"
+            android:dividerHeight="2dp" />
 
     </LinearLayout>
 

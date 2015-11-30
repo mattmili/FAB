@@ -14,4 +14,6 @@
     <string name="score">Score:</string>
     <string name="no_reviews">No Reviews To Display</string>
     <string name="no_book">No Book Found</string>
+    <string name="genre">Genre:</string>
+    <string name="by">By:</string>
 </resources>
