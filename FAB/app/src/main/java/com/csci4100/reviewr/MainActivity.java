@@ -1,4 +1,4 @@
-package com.csci4100.fab;
+package com.csci4100.reviewr;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.csci4100.fab.helper.ImageHelper;
+import com.csci4100.reviewr.helper.ImageHelper;
 import com.google.gson.Gson;
 import com.microsoft.projectoxford.vision.VisionServiceClient;
 import com.microsoft.projectoxford.vision.VisionServiceRestClient;

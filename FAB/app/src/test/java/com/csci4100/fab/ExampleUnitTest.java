@@ -1,4 +1,4 @@
-package com.csci4100.fab;
+package com.csci4100.reviewr;
 
 import org.junit.Test;
 

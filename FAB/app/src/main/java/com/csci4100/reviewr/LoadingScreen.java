@@ -1,4 +1,4 @@
-package com.csci4100.fab;
+package com.csci4100.reviewr;
 
 import android.content.Intent;
 import android.os.Bundle;

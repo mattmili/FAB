@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FAB</string>
+    <string name="app_name">Reviewr</string>
     <string name="subscription_key">APIKEY</string>
 
     <string name="input_hint">Enter book name or ISBN</string>
