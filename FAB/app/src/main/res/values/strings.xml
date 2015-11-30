@@ -12,4 +12,6 @@
     <string name="rating_start">Rating:</string>
     <string name="num_rating_start">No. of Ratings:</string>
     <string name="score">Score:</string>
+    <string name="no_reviews">No Reviews To Display</string>
+    <string name="no_book">No Book Found</string>
 </resources>
