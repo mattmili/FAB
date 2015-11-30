@@ -11,11 +11,14 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.csci4100.reviewr.helper.ImageHelper;
+import com.csci4100.reviewr.helper.InputItem;
+import com.csci4100.reviewr.helper.SearchHistoryDBHelper;
 import com.google.gson.Gson;
 import com.microsoft.projectoxford.vision.VisionServiceClient;
 import com.microsoft.projectoxford.vision.VisionServiceRestClient;
@@ -30,6 +33,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Main Activity Class
@@ -44,7 +48,10 @@ public class MainActivity extends AppCompatActivity {
     private Bitmap mBitmap;
     private VisionServiceClient client;
 
-    EditText bookToSearch;
+    AutoCompleteTextView bookToSearch;
+
+    private SearchHistoryDBHelper dbHelper;
+    private ArrayList<InputItem> queryItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +83,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bookToSearch = (EditText) findViewById(R.id.bookInput);
+        bookToSearch = (AutoCompleteTextView) findViewById(R.id.bookInput);
         bookToSearch.setHint(R.string.input_hint);
         bookToSearch.setHintTextColor(getResources().getColor(R.color.icons));
+
+        // Search History
+        dbHelper = new SearchHistoryDBHelper(this);
+        if(!dbHelper.isEmpty()) {
+            this.queryItems = dbHelper.getAllitems();
+
+            ArrayList<String> searchHistory = new ArrayList<String>();
+            for (final InputItem item : this.queryItems) {
+                final String query = item.query();
+                searchHistory.add(query);
+            }
+
+            ArrayAdapter<String> searchHistoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, searchHistory);
+            bookToSearch.setAdapter(searchHistoryAdapter);
+        }
     }
 
     // Deal with the result of selection of the photos and faces.
@@ -105,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     public void bookSearch(){
         Intent startResultIntent = new Intent(MainActivity.this, Result.class);
         startResultIntent.putExtra("result", bookToSearch.getText().toString());
+        dbHelper.createitem(bookToSearch.getText().toString());
         startActivity(startResultIntent);
     }
 

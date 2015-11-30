@@ -4,7 +4,7 @@
 Reviewr is an easy to use Android application that displays reviews of your favorite books!    
 
 ## How we built it
-Android, Flask, Microsoft Oxford Image Recognition API, iDreamBooks API
+Android, Flask, Heroku, Microsoft Oxford Image Recognition API, iDreamBooks API
 
 
 
