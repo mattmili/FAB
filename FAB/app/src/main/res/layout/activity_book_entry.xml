@@ -40,7 +40,8 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif"
         android:textColor="#FFFFFF"
-        android:background="@drawable/button_shape"/>
+        android:background="@drawable/button_shape"
+        android:onClick="searchAgain" />
 
 
 </RelativeLayout>
