@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -113,99 +114,109 @@ public class Result extends AppCompatActivity {
     public void populateView(String jsonString) throws org.json.JSONException {
         final ParseDisplay display = new ParseDisplay(jsonString);
 
-        final BookTitleHelper helperTitle = new BookTitleHelper(this, display.getTitle().replace(" ", "+"));
+        if (!display.getNoBookResult().equals("No Books")) {
+            final BookTitleHelper helperTitle = new BookTitleHelper(this, display.getTitle().replace(" ", "+"));
 
-        ImageView bufferCover = (ImageView) findViewById(R.id.book_cover);
-        bufferCover.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.logo_sample));
+            ImageView bufferCover = (ImageView) findViewById(R.id.book_cover);
+            bufferCover.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.logo_sample));
 
-        final ImageView cover = (ImageView) findViewById((R.id.book_cover));
+            final ImageView cover = (ImageView) findViewById((R.id.book_cover));
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                Bitmap testTwo = helperTitle.getCoverBitmap();
-                if (testTwo == null) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    Bitmap testTwo = helperTitle.getCoverBitmap();
+                    if (testTwo == null) {
 
-                } else {
-                    cover.setImageBitmap(testTwo);
-                }
-            }
-        }, 3000);
-
-        TextView title = (TextView) findViewById(R.id.book_title);
-        TextView author = (TextView) findViewById(R.id.name_of_author);
-        TextView rating = (TextView) findViewById(R.id.rating_label);
-        TextView numRating = (TextView) findViewById(R.id.num_rating_label);
-
-        TextView reviewLabel = (TextView) findViewById(R.id.review_label);
-        ListView reviews = (ListView) findViewById(R.id.review_list);
-
-        title.setText(display.getTitle());
-        author.setText(display.getAuthor());
-        rating.setText(this.getResources().getString(R.string.rating_start) + " " + display.getRating());
-        numRating.setText(this.getResources().getString(R.string.num_rating_start) + " " + display.getNumReviews());
-
-        reviewLabel.setText("Displaying " + display.getReviews().size() + " of " + display.getNumReviews());
-
-        class MySimpleArrayAdapter extends ArrayAdapter<String> {
-            private final Context context;
-            private final ArrayList<String> reviews;
-            private final ArrayList<String> reviewers;
-            private final ArrayList<Double> rating;
-
-            public MySimpleArrayAdapter(Context context, ArrayList<String> reviews, ArrayList<String> reviewers, ArrayList<Double> ratings) {
-                super(context, R.layout.row_layout, reviews);
-                this.context = context;
-                this.reviews = reviews;
-                this.rating = ratings;
-                this.reviewers = reviewers;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                LayoutInflater inflater = (LayoutInflater) context
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View rowView = inflater.inflate(R.layout.row_layout, parent, false);
-                TextView contentView = (TextView) rowView.findViewById(R.id.contentTextView);
-                TextView reviewerView = (TextView) rowView.findViewById(R.id.reviewerTextView);
-                TextView ratingView = (TextView) rowView.findViewById(R.id.reviewRatingTextView);
-
-                contentView.setText(reviews.get(position));
-                reviewerView.setText(getResources().getString(R.string.source).toString() + " " + reviewers.get(position));
-                ratingView.setText(getResources().getString(R.string.score).toString() + " " + Double.toString(rating.get(position)));
-
-                return rowView;
-            }
-        }
-
-        final ArrayList<String> tempReview = new ArrayList<>();
-        final ArrayList<String> tempReviewer = new ArrayList<>();
-        final ArrayList<Double> tempRatings = new ArrayList<>();
-        for (int i = 0; i < display.getReviews().size(); i++) {
-            tempReview.add(display.getReviews().get(i).get(0));
-            tempReviewer.add(display.getReviews().get(i).get(1));
-            tempRatings.add(Double.parseDouble(display.getReviews().get(i).get(3)));
-        }
-
-        MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, tempReview, tempReviewer, tempRatings);
-        reviews.setAdapter(adapter);
-
-        //ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.row_layout, tempReview);
-        //reviews.setAdapter(listAdapter);
-        reviews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View view, int position, long id) {
-                try {
-                    String link = display.getReviews().get(position).get(2);
-                    Log.d("ListClick", link);
-                    if (link != null) {
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
-                        startActivity(browserIntent);
+                    } else {
+                        cover.setImageBitmap(testTwo);
                     }
-                } catch (Exception ex) {
-                    Log.println(1, "item-click-event", ex.getMessage());
                 }
+            }, 3000);
+
+            TextView title = (TextView) findViewById(R.id.book_title);
+            TextView author = (TextView) findViewById(R.id.name_of_author);
+            TextView rating = (TextView) findViewById(R.id.rating_label);
+            TextView numRating = (TextView) findViewById(R.id.num_rating_label);
+
+            TextView reviewLabel = (TextView) findViewById(R.id.review_label);
+            ListView reviews = (ListView) findViewById(R.id.review_list);
+
+            title.setText(display.getTitle());
+            author.setText(display.getAuthor());
+            rating.setText(this.getResources().getString(R.string.rating_start) + " " + display.getRating());
+            numRating.setText(this.getResources().getString(R.string.num_rating_start) + " " + display.getNumReviews());
+
+            if (!display.getNoReviewResult().equals("No Reviews")) {
+                reviewLabel.setText("Displaying " + display.getReviews().size() + " of " + display.getNumReviews());
+
+                class MySimpleArrayAdapter extends ArrayAdapter<String> {
+                    private final Context context;
+                    private final ArrayList<String> reviews;
+                    private final ArrayList<String> reviewers;
+                    private final ArrayList<Double> rating;
+
+                    public MySimpleArrayAdapter(Context context, ArrayList<String> reviews, ArrayList<String> reviewers, ArrayList<Double> ratings) {
+                        super(context, R.layout.row_layout, reviews);
+                        this.context = context;
+                        this.reviews = reviews;
+                        this.rating = ratings;
+                        this.reviewers = reviewers;
+                    }
+
+                    @Override
+                    public View getView(int position, View convertView, ViewGroup parent) {
+                        LayoutInflater inflater = (LayoutInflater) context
+                                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View rowView = inflater.inflate(R.layout.row_layout, parent, false);
+                        TextView contentView = (TextView) rowView.findViewById(R.id.contentTextView);
+                        TextView reviewerView = (TextView) rowView.findViewById(R.id.reviewerTextView);
+                        TextView ratingView = (TextView) rowView.findViewById(R.id.reviewRatingTextView);
+
+                        contentView.setText(reviews.get(position));
+                        reviewerView.setText(getResources().getString(R.string.source).toString() + " " + reviewers.get(position));
+                        ratingView.setText(getResources().getString(R.string.score).toString() + " " + Double.toString(rating.get(position)));
+
+                        return rowView;
+                    }
+                }
+
+                final ArrayList<String> tempReview = new ArrayList<>();
+                final ArrayList<String> tempReviewer = new ArrayList<>();
+                final ArrayList<Double> tempRatings = new ArrayList<>();
+                for (int i = 0; i < display.getReviews().size(); i++) {
+                    tempReview.add(display.getReviews().get(i).get(0));
+                    tempReviewer.add(display.getReviews().get(i).get(1));
+                    tempRatings.add(Double.parseDouble(display.getReviews().get(i).get(3)));
+                }
+
+                MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, tempReview, tempReviewer, tempRatings);
+                reviews.setAdapter(adapter);
+
+                //ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.row_layout, tempReview);
+                //reviews.setAdapter(listAdapter);
+                reviews.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView parent, View view, int position, long id) {
+                        try {
+                            String link = display.getReviews().get(position).get(2);
+                            Log.d("ListClick", link);
+                            if (link != null) {
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                                startActivity(browserIntent);
+                            }
+                        } catch (Exception ex) {
+                            Log.println(1, "item-click-event", ex.getMessage());
+                        }
+                    }
+                });
+            } else {
+                reviewLabel.setText(this.getResources().getString(R.string.no_reviews));
             }
-        });
+
+        } else  {
+            TextView title = (TextView) findViewById(R.id.book_title);
+            title.setText(this.getResources().getString(R.string.no_book));
+        }
     }
 }

@@ -22,11 +22,19 @@ public class ParseDisplay {
     JSONArray shortReviews;
     HashMap<Integer, ArrayList<String>> reviews = new HashMap<>();
 
+    String noBookResult = "-";
+    String noReviewResult = "-";
 
     public ParseDisplay(String jsonString) throws org.json.JSONException {
         this.mainObject = new JSONObject(jsonString);
 
-        parseObject(mainObject);
+        String test = mainObject.getString("total_results");
+        if (test.equals("0")) {
+            noBookResult = "No Books";
+        } else {
+            parseObject(mainObject);
+        }
+
     }
 
     public void parseObject(JSONObject object) throws org.json.JSONException {
@@ -34,17 +42,27 @@ public class ParseDisplay {
         title = book.getString("title");
         author = book.getString("author");
         numReviews = book.getInt("review_count");
-        rating = book.getInt("rating");
+        try {
+            rating = book.getInt("rating");
+        } catch (org.json.JSONException e){
+            rating = 0;
+        }
+
         fullLink = book.getString("detail_link");
 
         shortReviews = book.getJSONArray("critic_reviews");
-        for (int i = 0; i < shortReviews.length(); i++) {
-            ArrayList<String> temp = new ArrayList<>();
-            temp.add(shortReviews.getJSONObject(i).getString("snippet"));
-            temp.add(shortReviews.getJSONObject(i).getString("source"));
-            temp.add(shortReviews.getJSONObject(i).getString("review_link"));
-            temp.add(shortReviews.getJSONObject(i).getString("star_rating"));
-            reviews.put(i, temp);
+
+        if (shortReviews.length() == 0) {
+            noReviewResult = "No Reviews";
+        } else {
+            for (int i = 0; i < shortReviews.length(); i++) {
+                ArrayList<String> temp = new ArrayList<>();
+                temp.add(shortReviews.getJSONObject(i).getString("snippet"));
+                temp.add(shortReviews.getJSONObject(i).getString("source"));
+                temp.add(shortReviews.getJSONObject(i).getString("review_link"));
+                temp.add(shortReviews.getJSONObject(i).getString("star_rating"));
+                reviews.put(i, temp);
+            }
         }
     }
 
@@ -70,5 +88,13 @@ public class ParseDisplay {
 
     public Map<Integer, ArrayList<String>> getReviews() {
         return reviews;
+    }
+
+    public String getNoBookResult() {
+        return noBookResult;
+    }
+
+    public String getNoReviewResult() {
+        return noReviewResult;
     }
 }
