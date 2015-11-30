@@ -13,9 +13,6 @@ import android.provider.MediaStore;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by mili on 2015-11-07.
- */
 public class ImageHelper {
 
     private static final int IMAGE_MAX_SIDE_LENGTH = 1280;
@@ -78,8 +75,7 @@ public class ImageHelper {
     }
 
     // Get the rotation angle of the image taken.
-    private static int getImageRotationAngle(
-            Uri imageUri, ContentResolver contentResolver) throws IOException {
+    private static int getImageRotationAngle(Uri imageUri, ContentResolver contentResolver) throws IOException {
         int angle = 0;
         Cursor cursor = contentResolver.query(imageUri,
                 new String[] { MediaStore.Images.ImageColumns.ORIENTATION }, null, null, null);
@@ -117,8 +113,7 @@ public class ImageHelper {
         if (angle != 0) {
             Matrix matrix = new Matrix();
             matrix.postRotate(angle);
-            return Bitmap.createBitmap(
-                    bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         } else {
             return bitmap;
         }

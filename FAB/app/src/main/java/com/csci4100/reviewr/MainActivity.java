@@ -31,6 +31,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * Main Activity Class
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_TAKE_PHOTO = 0;
@@ -53,8 +56,7 @@ public class MainActivity extends AppCompatActivity {
         TextView appName = (TextView) findViewById(R.id.appName);
         appName.setTypeface(face);
 
-
-        if (client==null){
+        if (client == null){
             client = new VisionServiceRestClient(getString(R.string.subscription_key));
         }
 
@@ -77,14 +79,13 @@ public class MainActivity extends AppCompatActivity {
         bookToSearch = (EditText) findViewById(R.id.bookInput);
         bookToSearch.setHint(R.string.input_hint);
         bookToSearch.setHintTextColor(getResources().getColor(R.color.icons));
-
     }
-
 
     // Deal with the result of selection of the photos and faces.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
+
             Uri imageUri;
             if (data == null || data.getData() == null) {
                 imageUri = mUriPhotoTaken;
@@ -93,12 +94,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
             mBitmap = ImageHelper.loadSizeLimitedBitmapFromUri(imageUri, getContentResolver());
+
             if (mBitmap != null) {
                 doRecognize();
             }
         }
     }
 
+    // Star book search from book title or ISBN
     public void bookSearch(){
         Intent startResultIntent = new Intent(MainActivity.this, Result.class);
         startResultIntent.putExtra("result", bookToSearch.getText().toString());
@@ -146,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
+    // Microsoft Oxford OCR API
     private class doRequest extends AsyncTask<String, String, String> {
         private Exception e = null;
 
@@ -195,10 +199,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Result", result);
 
                 if(result != "") {
+                    // Start Result Activity
                     Intent startResultIntent = new Intent(MainActivity.this, Result.class);
                     startResultIntent.putExtra("result", result);
                     startActivity(startResultIntent);
                 }else {
+                    // If book not found
+                    // Start Book Entry Activity and prompt user for manual entry
                     Intent startBookEntryIntent = new Intent(MainActivity.this, BookEntry.class);
                     startActivity(startBookEntryIntent);
                 }
