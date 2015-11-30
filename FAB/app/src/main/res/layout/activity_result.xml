@@ -104,16 +104,6 @@
         android:weightSum="1"
         android:background="@color/icons">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/review_label"
-            android:layout_gravity="left|center_horizontal"
-            android:background="@color/icons"
-            android:textColor="#FFFFFF"
-            android:fontFamily="sans-serif" />
-
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
