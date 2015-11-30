@@ -186,7 +186,7 @@ public class BookTitleHelper extends AppCompatActivity {
 
             } catch (Exception e) {
                 this.exception = e;
-                if (pos < isbns.length) {
+                if ((pos + 1) < isbns.length) {
                     pos += 1;
                     String coverURL = "http://covers.openlibrary.org/b/isbn/" + isbns[pos] + "-L.jpg?default=false";
                     Log.d("ISBN", isbns[pos]);
