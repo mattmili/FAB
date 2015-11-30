@@ -126,13 +126,13 @@ public class BookTitleHelper extends AppCompatActivity {
         JSONArray books = mainObject.getJSONArray("books");
         String isbnList = books.getJSONObject(0).getString("isbns");
         isbns = isbnList.toString().split(",");
-        String coverURL = "http://covers.openlibrary.org/b/isbn/" + isbns[0] + "-S.jpg?default=false";
+        String coverURL = "http://covers.openlibrary.org/b/isbn/" + isbns[0] + "-L.jpg?default=false";
         Log.d("ISBN", isbns[0]);
         getCover(coverURL);
     }
 
     public void getCoverFromURL(String[] list, int pos) {
-        String coverURL = "http://covers.openlibrary.org/b/isbn/" + list[pos] + "-S.jpg";
+        String coverURL = "http://covers.openlibrary.org/b/isbn/" + list[pos] + "-L.jpg";
         Log.d("ISBN", list[pos]);
         getCover(coverURL);
     }
@@ -190,7 +190,7 @@ public class BookTitleHelper extends AppCompatActivity {
                 this.exception = e;
                 if (pos < isbns.length) {
                     pos += 1;
-                    String coverURL = "http://covers.openlibrary.org/b/isbn/" + isbns[pos] + "-S.jpg?default=false";
+                    String coverURL = "http://covers.openlibrary.org/b/isbn/" + isbns[pos] + "-L.jpg?default=false";
                     Log.d("ISBN", isbns[pos]);
                     this.doInBackground(coverURL);
                     return bmp;
@@ -215,5 +215,9 @@ public class BookTitleHelper extends AppCompatActivity {
         bookCover = temp;
         Log.d("ISBNWorked", isbns[pos]);
 
+    }
+
+    public Bitmap getCoverBitmap() {
+        return bookCover;
     }
 }
