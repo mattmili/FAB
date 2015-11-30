@@ -14,6 +14,7 @@ public class BookEntry extends AppCompatActivity {
 
         TextView bookToSearch = (TextView) findViewById(R.id.query);
         bookToSearch.setHint(R.string.input_hint);
+        bookToSearch.setHintTextColor(getResources().getColor(R.color.icons));
         String query = bookToSearch.getText().toString();
 
         Intent startResultIntent = new Intent(BookEntry.this, Result.class);
