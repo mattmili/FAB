@@ -21,14 +21,14 @@ Media Playback:
   - An "book-flipping" mp3 file is played upon starting the loading screen acivity. 
 
 Downloading Internet Resources: 
-  Microsoft Oxford Vision API:
+  - Microsoft Oxford Vision API:
     - Image analyzer that analyzes an image for text
 
-  Retrieving Book reviews:
+  - Retrieving Book reviews:
     - A server which sends a request to the iDreamBooks API was created to server as a middle-man for the Android application. By implementing a server that calls the API, this removes having to embed the API call into the application. Furthermore, this will help scalability in the future. 
     - This was built using Flask (server address: https://damp-wildwood-1388.herokuapp.com/)
 
-  Retrieving ISBN and image of Book cover:
+  - Retrieving ISBN and image of Book cover:
     - Calls are directly made to the iDreambooks API in order to retrieve the ISBN
     - To get the cover, a URL for another site (OpenLibrary) is created with the isbns in the list of isbns the previous method created. This cycles through the list until a book cover is found. It will then, depending on how long the process took, display either the book cover, or a default icon on the results_activity page.
 
