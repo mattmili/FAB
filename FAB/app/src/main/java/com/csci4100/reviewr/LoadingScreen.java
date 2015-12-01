@@ -7,10 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+/**
+ * Created by mattmili.
+ */
 public class LoadingScreen extends AppCompatActivity {
 
     MediaPlayer flip;
 
+    /**
+     * onCreate
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +48,9 @@ public class LoadingScreen extends AppCompatActivity {
         this.flip.start();
     }
 
+    /**
+     * Called when Async Task is complete
+     */
     @Override
     protected void onDestroy() {
         this.flip.stop();

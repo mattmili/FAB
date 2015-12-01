@@ -10,7 +10,8 @@ import android.util.Log;
 import java.util.ArrayList;
 
 /**
- * Search History Database
+ * Created by mattmili
+ * Search History Database Helper
  */
 public class SearchHistoryDBHelper extends SQLiteOpenHelper {
 

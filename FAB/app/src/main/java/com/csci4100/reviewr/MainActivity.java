@@ -36,7 +36,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Main Activity Class
+ * Created by mattmili
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -123,7 +123,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Star book search from book title or ISBN
+    /**
+     * Start Result Activity
+     */
     public void bookSearch() {
         String query = bookToSearch.getText().toString();
 
@@ -137,7 +139,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(startResultIntent);
     }
 
-    // Launch the camera to allow the user to take a photo
+    /**
+     * Launch the camera to allow the user to take a photo
+     */
     public void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(intent.resolveActivity(getPackageManager()) != null) {
@@ -154,6 +158,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Start OCR Recognition
+     */
     public void doRecognize() {
         try {
             new doRequest().execute();
@@ -162,6 +169,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get String result from OCR
+     * @return
+     * @throws VisionServiceException
+     * @throws IOException
+     */
     private String process() throws VisionServiceException, IOException {
         Gson gson = new Gson();
         OCR ocr;
@@ -177,7 +190,9 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
-    // Microsoft Oxford OCR API
+    /**
+     * Async task for Microsoft API.
+     */
     private class doRequest extends AsyncTask<String, String, String> {
         private Exception e = null;
 

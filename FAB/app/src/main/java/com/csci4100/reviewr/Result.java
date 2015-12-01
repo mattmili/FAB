@@ -56,16 +56,23 @@ public class Result extends AppCompatActivity {
             query = m.group(0);
             getReviews(query);
         }else{
-            query = textResult.replace(" ", "+");
+            query = textResult.toLowerCase().replace(" ", "+");
             getReviews(query);
         }
 
     }
 
+    /**
+     * Retrieve reviews
+     * @param key
+     */
     public void getReviews(String key){
         new getJSONData().execute(key);
     }
 
+    /**
+     * Async task to send request to server for book reviews
+     */
     private class getJSONData extends AsyncTask<String, Void, String>{
 
         private Exception exception = null;
@@ -82,15 +89,19 @@ public class Result extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... args) {
+
             try{
+
                 String JSONResult ="";
                 String key = args[0];
+                // Server address
                 String url_api = "https://damp-wildwood-1388.herokuapp.com/getbook?items="+key;
                 Log.d("URL", url_api);
                 URL url = new URL(url_api);
                 HttpURLConnection conn;
                 conn = (HttpURLConnection)url.openConnection();
                 int result = conn.getResponseCode();
+
                 if(result == HttpURLConnection.HTTP_OK){
                     InputStream in = conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -101,8 +112,10 @@ public class Result extends AppCompatActivity {
                     }
                     JSONResult = out.toString();
                 }
+
                 return JSONResult;
-            }catch (Exception e){
+
+            } catch (Exception e) {
                 this.exception = e;
                 return null;
             }
@@ -114,14 +127,19 @@ public class Result extends AppCompatActivity {
             finishActivity(LOADING_REQUEST_CODE);
 
             try {
+
                 populateView(json);
+
             } catch (org.json.JSONException e) {
+
                 Log.d("JSON Error", e.toString());
                 // If book not found
                 // Start Book Entry Activity and prompt user for manual entry
                 Intent startBookEntryIntent = new Intent(Result.this, BookEntry.class);
                 startActivity(startBookEntryIntent);
+
             }
+
             Log.d("Result", json);
         }
     }

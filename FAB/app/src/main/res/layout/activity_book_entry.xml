@@ -36,13 +36,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/search_button"
-        android:id="@+id/searchButton"
+        android:id="@+id/searchAgainButton"
         android:layout_below="@+id/query"
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif"
         android:textColor="#FFFFFF"
-        android:background="@drawable/button_shape"
-        android:onClick="searchAgain" />
+        android:background="@drawable/button_shape"/>
 
 
 </RelativeLayout>
